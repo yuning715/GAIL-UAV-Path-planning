@@ -1,0 +1,51 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  device: auto
+  seeds: [0, 1, 2, 3, 4]
+
+gail:
+  env_mode: 2d_controlled
+  expert_dir: data/processed
+  checkpoint_dir: outputs/checkpoints/gail
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  state_dim: 6
+  action_dim: 2
+  policy:
+    hidden_sizes: [256, 128]
+    lstm_hidden_size: 128
+    action_std_min: 0.05
+    action_std_max: 1.5
+  value:
+    hidden_sizes: [256, 128, 64]
+  discriminator:
+    embedding_dim: 256
+    lstm_hidden_size: 128
+    num_layers: 2
+  ppo:
+    learning_rate: 0.0003
+    clip_epsilon: 0.2
+    gae_lambda: 0.95
+    gamma: 0.99
+    epochs_per_iteration: 10
+    minibatch_size: 256
+    entropy_coefficient: 0.01
+    value_coefficient: 0.5
+    max_grad_norm: 0.5
+  gail_params:
+    discriminator_learning_rate: 0.0001
+    reward_weight: 1.0
+    task_reward_beta: 0.1
+    discriminator_update_frequency: 5
+  training:
+    iterations: 120
+    episodes_per_iteration: 4
+    max_steps_per_episode: 300
+    resume: null
+    save_every: 10
+    log_every: 1
+

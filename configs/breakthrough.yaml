@@ -1,0 +1,35 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  seeds: [0, 1, 2, 3, 4]
+
+breakthrough:
+  env_mode: 2d_controlled
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  simulation_minutes: 300
+  eval_episodes: 1
+  single_episode_max_steps: 300
+  dt: 1.0
+  map_size: [2400.0, 1800.0]
+  start: [-920.0, 0.0]
+  home: [-920.0, 0.0]
+  target_device: [520.0, 0.0]
+  radar_center: [180.0, 0.0]
+  radar_radius: 620.0
+  intercept_radius: 45.0
+  target_radius: 180.0
+  exit_radius: 80.0
+  max_speed: 18.0
+  max_accel: 4.0
+  loitering_uavs:
+    count: 3
+    speed: 13.0
+    patrol_radius: 330.0
+    intercept_speed: 15.0
+  designated_targets:
+    count: 64
+    inside_radar_fraction: 0.60

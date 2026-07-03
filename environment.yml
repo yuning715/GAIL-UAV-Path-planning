@@ -1,0 +1,15 @@
+name: gail-uav-reproduction
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - matplotlib
+  - pyyaml
+  - pytorch
+  - scipy
+  - pytest
+  - tabulate
+

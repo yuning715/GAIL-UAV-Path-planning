@@ -1,0 +1,53 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  device: auto
+  seeds: [0, 1, 2, 3, 4]
+
+baselines:
+  log_dir: outputs/logs
+  checkpoint_dir: outputs/checkpoints/baselines
+  raw_rollout_dir: outputs/raw_rollouts
+  state_dim: 6
+  action_dim: 2
+  actor:
+    input_size: 6
+    hidden_layers: [32, 32]
+    activation: ReLU
+    output_size: 2
+  critic:
+    input_size: 8
+    hidden_layers: [32, 32]
+    output_size: 1
+  controlled_params:
+    gamma: 0.5
+    alpha: 0.8
+    epsilon_start: 0.2
+    epsilon_growth: 0.0005
+    ou_beta: 0.1
+    ou_sigma_1: 0.2
+    gaussian_variance_initial: 0.5
+    gaussian_attenuation_delta: 0.001
+  training:
+    episodes: 120
+    max_steps_per_episode: 300
+    batch_size: 128
+    replay_capacity: 50000
+    learning_rate: 0.0003
+    tau: 0.005
+    save_every: 20
+    resume: null
+  apf:
+    attractive_gain: 1.0
+    repulsive_gain: 260.0
+    obstacle_influence_radius: 160.0
+    max_accel: 4.0
+  aco:
+    grid_resolution: 50.0
+    horizon_steps: 12
+    ants: 24
+    iterations: 4
+    pheromone_evaporation: 0.45
+    risk_weight: 2.5
+

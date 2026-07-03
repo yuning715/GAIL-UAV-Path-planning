@@ -1,0 +1,213 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  device: auto
+  seeds: [0, 1]
+
+expert_generation:
+  num_trajectories: 10
+  points_per_trajectory: 1200
+  save_dir: data/expert
+
+inpainting:
+  expert_dir: data/expert
+  processed_dir: data/processed
+  checkpoint_dir: outputs/checkpoints/inpainting
+  log_dir: outputs/logs
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  feature_names: [velocity, turning_angle, pitch_angle]
+  feature_dim: 3
+  seq_len: 64
+  stride: 32
+  train_indices: [0, 1, 2, 3, 4, 5, 6, 7]
+  test_indices: [8, 9]
+  generator:
+    hidden_size: 64
+    num_layers: 2
+    dropout: 0.1
+    output_activation: tanh
+  discriminator:
+    cnn_filters: [32, 64, 96]
+    lstm_hidden_size: 64
+    dropout: 0.1
+  training:
+    optimizer: Adam
+    learning_rate: 0.0001
+    batch_size: 16
+    epochs: 3
+    alpha: 10.0
+    gan_loss_type: bce_recon
+    modified_lambda: 1.0
+    gradient_penalty_weight: 0.0
+    save_every: 1
+    log_every: 1
+    max_batches_per_epoch: 3
+    resume: null
+  missing:
+    random_missing_rate: 0.02
+    retained_rate: 0.90
+    block_missing_rate: 0.10
+    first_plot_interval: [600, 640]
+    second_plot_interval: [700, 900]
+
+gail:
+  env_mode: 2d_controlled
+  expert_dir: data/processed
+  checkpoint_dir: outputs/checkpoints/gail
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  state_dim: 6
+  action_dim: 2
+  policy:
+    hidden_sizes: [128, 64]
+    lstm_hidden_size: 64
+    action_std_min: 0.05
+    action_std_max: 1.5
+  value:
+    hidden_sizes: [128, 64, 32]
+  discriminator:
+    embedding_dim: 128
+    lstm_hidden_size: 64
+    num_layers: 2
+  ppo:
+    learning_rate: 0.0003
+    clip_epsilon: 0.2
+    gae_lambda: 0.95
+    gamma: 0.99
+    epochs_per_iteration: 2
+    minibatch_size: 64
+    entropy_coefficient: 0.01
+    value_coefficient: 0.5
+    max_grad_norm: 0.5
+  gail_params:
+    discriminator_learning_rate: 0.0001
+    reward_weight: 1.0
+    task_reward_beta: 0.1
+    discriminator_update_frequency: 1
+  training:
+    iterations: 2
+    episodes_per_iteration: 2
+    max_steps_per_episode: 80
+    resume: null
+    save_every: 1
+    log_every: 1
+
+baselines:
+  log_dir: outputs/logs
+  checkpoint_dir: outputs/checkpoints/baselines
+  raw_rollout_dir: outputs/raw_rollouts
+  state_dim: 6
+  action_dim: 2
+  actor:
+    input_size: 6
+    hidden_layers: [32, 32]
+    activation: ReLU
+    output_size: 2
+  critic:
+    input_size: 8
+    hidden_layers: [32, 32]
+    output_size: 1
+  controlled_params:
+    gamma: 0.5
+    alpha: 0.8
+    epsilon_start: 0.2
+    epsilon_growth: 0.0005
+    ou_beta: 0.1
+    ou_sigma_1: 0.2
+    gaussian_variance_initial: 0.5
+    gaussian_attenuation_delta: 0.001
+  training:
+    episodes: 2
+    max_steps_per_episode: 80
+    batch_size: 32
+    replay_capacity: 2000
+    learning_rate: 0.0003
+    tau: 0.01
+    save_every: 1
+    resume: null
+  apf:
+    attractive_gain: 1.0
+    repulsive_gain: 220.0
+    obstacle_influence_radius: 150.0
+    max_accel: 4.0
+  aco:
+    grid_resolution: 70.0
+    horizon_steps: 7
+    ants: 8
+    iterations: 2
+    pheromone_evaporation: 0.5
+    risk_weight: 2.0
+
+breakthrough:
+  env_mode: 2d_controlled
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  simulation_minutes: 30
+  eval_episodes: 1
+  single_episode_max_steps: 300
+  dt: 1.0
+  map_size: [2400.0, 1800.0]
+  start: [-920.0, 0.0]
+  home: [-920.0, 0.0]
+  target_device: [520.0, 0.0]
+  radar_center: [180.0, 0.0]
+  radar_radius: 620.0
+  intercept_radius: 45.0
+  target_radius: 180.0
+  exit_radius: 80.0
+  max_speed: 18.0
+  max_accel: 4.0
+  loitering_uavs:
+    count: 3
+    speed: 13.0
+    patrol_radius: 330.0
+    intercept_speed: 15.0
+  designated_targets:
+    count: 10
+    inside_radar_fraction: 0.60
+
+interception:
+  env_mode: 2d_controlled
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  total_minutes: 60
+  group_interval_minutes: 15
+  groups: 4
+  max_group_size: 5
+  dt: 1.0
+  map_size: [2000.0, 1300.0]
+  zone_x: [-650.0, 650.0]
+  zone_y: [-420.0, 420.0]
+  start: [0.0, -360.0]
+  max_speed: 19.0
+  max_accel: 4.0
+  intercept_radius: 120.0
+  target_speed: 8.0
+  obstacles:
+    - center: [-220.0, 0.0]
+      radius: 80.0
+    - center: [230.0, 120.0]
+      radius: 90.0
+    - center: [0.0, -150.0]
+      radius: 70.0
+
+ablation:
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  variants: [complete_model, without_si, original_gan, without_cnn_lstm, without_ppo]
+  batches: 5
+  uavs_per_batch: 3
+  max_batch_minutes: 2
+  next_batch_delay_seconds: 5
+  dt: 1.0
+  eval_seeds: [0, 1]

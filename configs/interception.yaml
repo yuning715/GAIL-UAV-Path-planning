@@ -1,0 +1,32 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  seeds: [0, 1, 2, 3, 4]
+
+interception:
+  env_mode: 2d_controlled
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  total_minutes: 500
+  group_interval_minutes: 15
+  groups: 33
+  max_group_size: 5
+  dt: 1.0
+  map_size: [2000.0, 1300.0]
+  zone_x: [-650.0, 650.0]
+  zone_y: [-420.0, 420.0]
+  start: [0.0, -360.0]
+  max_speed: 19.0
+  max_accel: 4.0
+  intercept_radius: 120.0
+  target_speed: 8.0
+  obstacles:
+    - center: [-220.0, 0.0]
+      radius: 80.0
+    - center: [230.0, 120.0]
+      radius: 90.0
+    - center: [0.0, -150.0]
+      radius: 70.0

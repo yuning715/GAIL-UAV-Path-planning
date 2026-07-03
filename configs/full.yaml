@@ -1,0 +1,20 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  device: auto
+  seeds: [0, 1, 2, 3, 4]
+
+expert_generation:
+  num_trajectories: 10
+  points_per_trajectory: 10000
+  save_dir: data/expert
+
+include:
+  inpainting: configs/inpainting.yaml
+  gail: configs/gail_ppo.yaml
+  baselines: configs/baselines.yaml
+  breakthrough: configs/breakthrough.yaml
+  interception: configs/interception.yaml
+  ablation: configs/ablation.yaml
+

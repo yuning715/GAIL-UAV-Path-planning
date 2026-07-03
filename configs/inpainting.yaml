@@ -1,0 +1,49 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  device: auto
+  seeds: [0, 1, 2, 3, 4]
+
+inpainting:
+  expert_dir: data/expert
+  processed_dir: data/processed
+  checkpoint_dir: outputs/checkpoints/inpainting
+  log_dir: outputs/logs
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  feature_names: [velocity, turning_angle, pitch_angle]
+  feature_dim: 3
+  seq_len: 128
+  stride: 64
+  train_indices: [0, 1, 2, 3, 4, 5, 6, 7]
+  test_indices: [8, 9]
+  generator:
+    hidden_size: 256
+    num_layers: 2
+    dropout: 0.2
+    output_activation: tanh
+  discriminator:
+    cnn_filters: [64, 128, 256]
+    lstm_hidden_size: 128
+    dropout: 0.2
+  training:
+    optimizer: Adam
+    learning_rate: 0.0001
+    batch_size: 64
+    epochs: 2000
+    alpha: 10.0
+    gan_loss_type: bce_recon
+    modified_lambda: 1.0
+    gradient_penalty_weight: 10.0
+    save_every: 100
+    log_every: 10
+    max_batches_per_epoch: null
+    resume: null
+  missing:
+    random_missing_rate: 0.02
+    retained_rate: 0.90
+    block_missing_rate: 0.10
+    first_plot_interval: [6000, 6400]
+    second_plot_interval: [7000, 9000]
+

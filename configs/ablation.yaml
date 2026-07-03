@@ -1,0 +1,24 @@
+common:
+  output_root: outputs
+  data_root: data
+  seed: 0
+  seeds: [0, 1, 2, 3, 4]
+
+ablation:
+  log_dir: outputs/logs
+  raw_rollout_dir: outputs/raw_rollouts
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  variants:
+    - complete_model
+    - without_si
+    - original_gan
+    - without_cnn_lstm
+    - without_ppo
+  batches: 5
+  uavs_per_batch: 3
+  max_batch_minutes: 15
+  next_batch_delay_seconds: 30
+  dt: 1.0
+  eval_seeds: [0, 1, 2, 3, 4]
+
